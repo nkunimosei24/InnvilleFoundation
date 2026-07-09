@@ -1,9 +1,11 @@
-
 import { useState, useEffect } from "react";
 import { X, CheckCircle2 } from "lucide-react";
+import { supabase } from "../lib/src/lib/supabase";
 
 export default function RegistrationModal({ isOpen, onClose, programTitle }) {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -28,6 +30,7 @@ export default function RegistrationModal({ isOpen, onClose, programTitle }) {
   useEffect(() => {
     if (isOpen) {
       setSubmitted(false);
+      setErrorMsg("");
       setForm({ name: "", email: "", phone: "", message: "" });
     }
   }, [isOpen, programTitle]);
@@ -38,10 +41,29 @@ export default function RegistrationModal({ isOpen, onClose, programTitle }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: wire this up to your actual backend / form service (e.g. Formspree, EmailJS, or your own API)
-    console.log("Registration submitted:", { program: programTitle, ...form });
+    setSubmitting(true);
+    setErrorMsg("");
+
+    const { error } = await supabase.from("registrations").insert([
+      {
+        program_title: programTitle,
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        message: form.message,
+      },
+    ]);
+
+    setSubmitting(false);
+
+    if (error) {
+      console.error("Registration error:", error);
+      setErrorMsg("Something went wrong submitting your registration. Please try again.");
+      return;
+    }
+
     setSubmitted(true);
   };
 
@@ -153,11 +175,16 @@ export default function RegistrationModal({ isOpen, onClose, programTitle }) {
                 />
               </div>
 
+              {errorMsg && (
+                <p className="text-sm text-red-600">{errorMsg}</p>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 active:bg-red-700 transition-colors shadow-sm"
+                disabled={submitting}
+                className="w-full bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 active:bg-red-700 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Submit Registration
+                {submitting ? "Submitting..." : "Submit Registration"}
               </button>
             </form>
           </>

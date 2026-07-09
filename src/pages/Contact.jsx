@@ -1,6 +1,39 @@
-import { GraduationCap, Handshake, HeartHandshake, Mail, MapPin, Phone } from "lucide-react";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { GraduationCap, Handshake, HeartHandshake, Mail, MapPin, Phone, CheckCircle2 } from "lucide-react";
+import { supabase } from "../lib/src/lib/supabase";
 
 export default function Contact() {
+  const location = useLocation();
+  const initialReason = location.state?.reason || "Program Inquiry";
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    reason: initialReason,
+    message: "",
+  });
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+
+    const { error } = await supabase.from("contact_submissions").insert([form]);
+
+    if (error) {
+      console.error("Contact form error:", error);
+      setStatus("error");
+    } else {
+      setStatus("sent");
+      setForm({ name: "", email: "", reason: "Program Inquiry", message: "" });
+    }
+  };
+
   return (
     <div className="w-full bg-white">
       {/* HERO */}
@@ -93,67 +126,113 @@ export default function Contact() {
 
           {/* RIGHT - FORM */}
           <div className="bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 shadow-sm h-fit">
-            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1">
-              Send a Message
-            </h3>
-            <p className="text-sm text-gray-500 mb-6">
-              Fill out the form below and we'll get back to you shortly.
-            </p>
-
-            <form className="space-y-5">
-              <div className="grid sm:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
-                    placeholder="John Doe"
-                  />
+            {status === "sent" ? (
+              <div className="text-center py-8">
+                <div className="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-7 h-7 text-green-600" />
                 </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
-                    placeholder="john@example.com"
-                  />
-                </div>
+                <h3 className="mt-5 text-xl font-semibold text-gray-900">
+                  Message sent!
+                </h3>
+                <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                  Thanks for reaching out. We'll get back to you shortly.
+                </p>
+                <button
+                  onClick={() => setStatus("idle")}
+                  className="mt-6 text-sm font-medium text-red-500 hover:text-red-600"
+                >
+                  Send another message
+                </button>
               </div>
+            ) : (
+              <>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1">
+                  Send a Message
+                </h3>
+                <p className="text-sm text-gray-500 mb-6">
+                  Fill out the form below and we'll get back to you shortly.
+                </p>
 
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                  Reason for Contact
-                </label>
-                <select className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition text-gray-700 bg-white">
-                  <option>Program Inquiry</option>
-                  <option>Partnership / Sponsorship</option>
-                  <option>Volunteer Interest</option>
-                  <option>General Inquiry</option>
-                </select>
-              </div>
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        value={form.name}
+                        onChange={handleChange}
+                        className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                        placeholder="John Doe"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        value={form.email}
+                        onChange={handleChange}
+                        className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                  Message
-                </label>
-                <textarea
-                  rows="5"
-                  className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition resize-none"
-                  placeholder="Tell us more about your message"
-                />
-              </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                      Reason for Contact
+                    </label>
+                    <select
+                      name="reason"
+                      value={form.reason}
+                      onChange={handleChange}
+                      className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition text-gray-700 bg-white"
+                    >
+                      <option>Program Inquiry</option>
+                      <option>Partnership / Sponsorship</option>
+                      <option>Volunteer Interest</option>
+                      <option>General Inquiry</option>
+                    </select>
+                  </div>
 
-              <button
-                type="submit"
-                className="w-full bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 active:bg-red-700 transition-colors shadow-sm hover:shadow-md"
-              >
-                Send Message
-              </button>
-            </form>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                      Message
+                    </label>
+                    <textarea
+                      name="message"
+                      required
+                      rows="5"
+                      value={form.message}
+                      onChange={handleChange}
+                      className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition resize-none"
+                      placeholder="Tell us more about your message"
+                    />
+                  </div>
+
+                  {status === "error" && (
+                    <p className="text-sm text-red-600">
+                      Something went wrong sending your message. Please try again.
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={status === "sending"}
+                    className="w-full bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 active:bg-red-700 transition-colors shadow-sm hover:shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {status === "sending" ? "Sending..." : "Send Message"}
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </section>

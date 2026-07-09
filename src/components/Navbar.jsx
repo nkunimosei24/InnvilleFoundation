@@ -7,6 +7,7 @@ const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/programs", label: "Programs" },
+  { to: "/gallery", label: "Gallery" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -67,6 +68,7 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <Link
           to="/contact"
+          state={{ reason: "Partnership / Sponsorship" }}
           className="hidden md:inline-block bg-red-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-600 active:bg-red-700 transition-colors shrink-0"
         >
           Partner With Us
@@ -108,6 +110,7 @@ export default function Navbar() {
           })}
           <Link
             to="/contact"
+            state={{ reason: "Partnership / Sponsorship" }}
             className="mt-2 bg-red-500 text-white text-center px-4 py-3 rounded-md text-sm font-medium hover:bg-red-600 active:bg-red-700 transition-colors"
           >
             Partner With Us

@@ -10,7 +10,10 @@ import About from './pages/About'
 import Programs from './pages/Programs'
 import Contact from './pages/Contact'
 import ProgramDetails from './pages/ProgramDetails'
-
+import AdminLogin from './pages/admin/AdminLogin'
+import ProtectedRoute from './components/ProtectedRoute'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import Gallery from './pages/Gallery'
 
 
 function App() {
@@ -24,7 +27,18 @@ function App() {
         <Route path="/programs" element={<Programs />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/programs/:slug" element={<ProgramDetails />} />
+        <Route path="/gallery" element={<Gallery />} />
       </Route>
+     <Route path="/admin/login" element={<AdminLogin />} />
+     <Route
+  path="/admin"
+  element={
+    <ProtectedRoute>
+      <AdminDashboard />
+    </ProtectedRoute>
+  }
+/>
+
     </Routes>
     
   )

@@ -1,4 +1,4 @@
-import { Briefcase, Megaphone, Sparkles, Quote, Eye } from "lucide-react";
+import { Briefcase, Megaphone, Sparkles, Quote, Eye, ArrowDown } from "lucide-react";
 import employabilityImage from "../assets/images/2.jpg";
 import advocacyImage from "../assets/images/8.jpg";
 import philosophyImage from "../assets/images/13.jpg";
@@ -62,30 +62,41 @@ export default function About() {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mt-12 sm:mt-16">
+        {/* VISION -> MISSION: a connected pair, not a generic 2-up grid.
+            The arrow encodes a real relationship: what we see leads to what we do. */}
+        <div className="mt-12 sm:mt-16 max-w-5xl mx-auto flex flex-col md:flex-row items-stretch">
           {items.map((item, index) => {
             const Icon = item.icon;
             return (
-              <div
-                key={index}
-                className="group relative bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-red-100 transition-all duration-300"
-              >
-                {/* Number watermark */}
-                <span className="absolute top-5 right-6 text-5xl sm:text-6xl font-bold text-gray-50 select-none group-hover:text-red-50 transition-colors duration-300">
-                  0{index + 1}
-                </span>
+              <div key={index} className="flex flex-col md:flex-row flex-1 items-stretch">
+                <div className="group relative flex-1 bg-white border border-gray-100 rounded-3xl p-7 sm:p-9 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-red-100 transition-all duration-300 overflow-hidden">
+                  
 
-                <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-red-50 flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                  <Icon className="w-6 h-6" />
+                  <div className="relative">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-red-600 flex items-center justify-center text-white shadow-lg shadow-red-600/20 group-hover:scale-105 transition-transform duration-300">
+                      <Icon className="w-6 h-6" />
+                    </div>
+
+                    <h3 className="mt-5 sm:mt-6 text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
+                      {item.title}
+                    </h3>
+
+                    <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-600 leading-relaxed">
+                      {item.text}
+                    </p>
+                  </div>
                 </div>
 
-                <h3 className="relative mt-5 sm:mt-6 text-xl sm:text-2xl font-semibold text-gray-900">
-                  {item.title}
-                </h3>
-
-                <p className="relative mt-3 sm:mt-4 text-sm sm:text-base text-gray-600 leading-relaxed">
-                  {item.text}
-                </p>
+                {/* Connector: only rendered between the two cards */}
+                {index === 0 && (
+                  <div className="flex md:flex-col items-center justify-center gap-2 py-4 md:py-0 md:px-5 shrink-0">
+                    <span className="hidden md:block h-full w-px bg-gradient-to-b from-transparent via-red-100 to-transparent" aria-hidden="true" />
+                    <div className="w-10 h-10 rounded-full bg-red-600 ring-8 ring-red-50 flex items-center justify-center text-white shrink-0 md:-my-5 z-10">
+                      <ArrowDown className="w-4 h-4 md:-rotate-90" />
+                    </div>
+                    <span className="hidden md:block h-full w-px bg-gradient-to-b from-transparent via-red-100 to-transparent" aria-hidden="true" />
+                  </div>
+                )}
               </div>
             );
           })}

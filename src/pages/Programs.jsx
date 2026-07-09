@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { programs } from "../utils/program";
+import { programs as staticPrograms } from "../utils/program";
+import { mapDbProgram } from "../utils/mapDbProgram";
+import { supabase } from "../lib/src/lib/supabase";
 import ProgramBadge from "../components/ProgramBadge";
 
 const categories = ["All", "Entrepreneurship", "Skills Training & Development", "Youth Advocacy & Community"];
+
 export default function Programs() {
   const [active, setActive] = useState("All");
+  const [dbPrograms, setDbPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDbPrograms = async () => {
+      const { data, error } = await supabase
+        .from("programs")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (!error) setDbPrograms(data.map(mapDbProgram));
+      setLoading(false);
+    };
+    fetchDbPrograms();
+  }, []);
+
+  const allPrograms = [...staticPrograms, ...dbPrograms];
 
   const filtered =
-    active === "All" ? programs : programs.filter((p) => p.category === active);
+    active === "All" ? allPrograms : allPrograms.filter((p) => p.category === active);
 
   return (
     <div className="w-full bg-white">
@@ -36,8 +55,8 @@ export default function Programs() {
             {categories.map((cat) => {
               const count =
                 cat === "All"
-                  ? programs.length
-                  : programs.filter((p) => p.category === cat).length;
+                  ? allPrograms.length
+                  : allPrograms.filter((p) => p.category === cat).length;
               return (
                 <button
                   key={cat}
@@ -66,14 +85,15 @@ export default function Programs() {
       {/* PROGRAM CARDS */}
       <section className="py-14 sm:py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          {filtered.length === 0 ? (
+          {loading ? (
+            <p className="text-center text-gray-400 py-12 text-sm">Loading programs...</p>
+          ) : filtered.length === 0 ? (
             <p className="text-center text-gray-500 py-12">
               No programs found in this category yet.
             </p>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {filtered.map((program) => {
-                const Icon = program.icon;
                 return (
                   <div
                     key={program.slug}

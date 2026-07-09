@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone,ArrowUp } from "lucide-react";
+import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaTwitter } from "react-icons/fa";
 
 const quickLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/programs", label: "Programs" },
   { to: "/contact", label: "Contact" },
+    { to: "/admin/login", label: "Admin Login" },
 ];
 
 const focusAreas = [
@@ -15,12 +17,12 @@ const focusAreas = [
   "Skills Training",
 ];
 
-// const socials = [
-//   { icon: Facebook, href: "#", label: "Facebook" },
-//   { icon: Instagram, href: "#", label: "Instagram" },
-//   { icon: Twitter, href: "#", label: "Twitter" },
-//   { icon: Linkedin, href: "#", label: "LinkedIn" },
-// ];
+const socials = [
+  { icon: FaFacebook, href: "https://www.facebook.com/share/1FKeXuPXWU/?mibextid=wwXIfr", label: "Facebook" },
+  { icon: FaInstagram, href: "https://www.instagram.com/innvillefoundation?igsh=NWt1cmxmaGVrdWp2", label: "Instagram" },
+  { icon: FaTiktok, href: "https://www.tiktok.com/@innvilleofficial?_r=1&_t=ZS-97tH8r23htk", label: "TikTok" },
+  { icon: FaLinkedin, href: "https://www.linkedin.com/company/innville-foundation/", label: "LinkedIn" },
+];
 
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
@@ -41,7 +43,7 @@ export default function Footer() {
             </p>
 
             {/* SOCIAL LINKS */}
-            {/* <div className="mt-6 flex gap-3">
+            <div className="mt-6 flex gap-3">
               {socials.map(({ icon: Icon, href, label }) => (
                  <a
                   key={label}
@@ -52,7 +54,7 @@ export default function Footer() {
                   <Icon className="w-4 h-4" />
                 </a>
               ))}
-            </div> */}
+            </div>
           </div>
 
           {/* QUICK LINKS */}
@@ -97,18 +99,22 @@ export default function Footer() {
                 <MapPin className="w-4 h-4 text-red-500 shrink-0" />
                 <span>Ghana</span>
               </div>
-              <a href="mailto:hello@innviile.org" className="flex items-center gap-2.5 hover:text-red-400 transition-colors w-fit">
+              <a href="mailto:innvilleDoundation@" className="flex items-center gap-2.5 hover:text-red-400 transition-colors w-fit">
                 <Mail className="w-4 h-4 text-red-500 shrink-0" />
                 <span>innvillefoundation@gmail.com</span>
               </a>
                
-                <a>
+               <a className="flex items-center gap-2.5 hover:text-red-400 transition-colors w-fit">
                 <Phone className="w-4 h-4 text-red-500 shrink-0" />
-                <span>+233 XXX XXX XXX</span>
+                <span>+233 54 781 5672</span>
               </a>
+
             </div>
           </div>
+        
         </div>
+
+        
 
         {/* BOTTOM BAR */}
         <div className="border-t border-gray-800 mt-10 sm:mt-12 pt-6 flex flex-col-reverse sm:flex-row items-center justify-between gap-4 text-center sm:text-left">

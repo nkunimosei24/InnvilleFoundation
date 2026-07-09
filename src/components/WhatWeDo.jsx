@@ -62,18 +62,6 @@ export default function WhatWeDo() {
           })}
         </div>
 
-        <div className="mt-12 sm:mt-16 text-center">
-          <Link
-            to="/programs"
-            className="group inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 sm:py-3.5 rounded-full text-sm sm:text-base hover:bg-red-700 active:bg-red-800 transition-colors shadow-md shadow-red-200"
-          >
-            Explore Our Programs
-            <ArrowRight
-              size={18}
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </Link>
-        </div>
       </div>
     </section>
   );

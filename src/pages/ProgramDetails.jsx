@@ -1,19 +1,42 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
-import { getProgramBySlug, programs } from "../utils/program";
+import { getProgramBySlug, programs as staticPrograms } from "../utils/program";
+import { mapDbProgram } from "../utils/mapDbProgram";
+import { supabase } from "../lib/src/lib/supabase";
 import ProgramBadge from "../components/ProgramBadge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RegistrationModal from "../components/RegistrationModal";
 
 export default function ProgramDetails() {
   const { slug } = useParams();
-  const program = getProgramBySlug(slug);
+  const [dbPrograms, setDbPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchDbPrograms = async () => {
+      const { data, error } = await supabase.from("programs").select("*");
+      if (!error) setDbPrograms(data.map(mapDbProgram));
+      setLoading(false);
+    };
+    fetchDbPrograms();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <p className="text-gray-400 text-sm">Loading...</p>
+      </div>
+    );
+  }
+
+  const allPrograms = [...staticPrograms, ...dbPrograms];
+  const program = getProgramBySlug(slug) || allPrograms.find((p) => p.slug === slug);
 
   if (!program) return <Navigate to="/programs" replace />;
 
   const Icon = program.icon;
-  const otherPrograms = programs.filter((p) => p.slug !== program.slug).slice(0, 3);
+  const otherPrograms = allPrograms.filter((p) => p.slug !== program.slug).slice(0, 3);
 
   return (
     <div className="w-full bg-white">
@@ -200,8 +223,7 @@ export default function ProgramDetails() {
         )}
       </div>
 
-      {/* GET INVOLVED CTA */}
-
+      {/* GET INVOLVED CTA — always opens the registration modal */}
       {program.getInvolved && (
         <section className="bg-red-500 text-white py-14 sm:py-16 text-center">
           <div className="max-w-2xl mx-auto px-4 sm:px-6">
@@ -210,25 +232,15 @@ export default function ProgramDetails() {
               {program.getInvolved}
             </p>
 
-            {program.rollingAdmission ? (
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="mt-7 inline-flex items-center gap-2 bg-white text-red-500 px-6 py-3 rounded-full font-medium text-sm sm:text-base hover:bg-red-50 transition-colors"
-              >
-                Get Started <ArrowRight size={18} />
-              </button>
-            ) : (
-              <Link
-                to="/contact"
-                className="mt-7 inline-flex items-center gap-2 bg-white text-red-500 px-6 py-3 rounded-full font-medium text-sm sm:text-base hover:bg-red-50 transition-colors"
-              >
-                Get Started <ArrowRight size={18} />
-              </Link>
-            )}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="mt-7 inline-flex items-center gap-2 bg-white text-red-500 px-6 py-3 rounded-full font-medium text-sm sm:text-base hover:bg-red-50 transition-colors"
+            >
+              Get Started <ArrowRight size={18} />
+            </button>
           </div>
         </section>
       )}
-
 
       {/* OTHER PROGRAMS */}
       <section className="py-14 sm:py-16 bg-gray-50">
@@ -256,14 +268,12 @@ export default function ProgramDetails() {
         </div>
       </section>
 
-      {/* REGISTRATION MODAL */}
-      {program.rollingAdmission && (
-        <RegistrationModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          programTitle={program.title}
-        />
-      )}
+      {/* REGISTRATION MODAL — available for every program */}
+      <RegistrationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        programTitle={program.title}
+      />
     </div>
   );
 }
