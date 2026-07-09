@@ -1,5 +1,5 @@
 import CTA from "../components/CTA";
-import Hero from "../components/hero";
+import Hero from "../components/Hero";
 import HowWeWork from "../components/HowWeWork";
 import ImpactStats from "../components/ImpactStats";
 import Partners from "../components/Partners";
