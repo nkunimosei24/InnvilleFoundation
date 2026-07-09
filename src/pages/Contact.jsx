@@ -111,11 +111,11 @@ export default function Contact() {
             <div className="mt-8 pt-8 border-t border-gray-200 space-y-3">
               <div className="flex items-center gap-3 text-sm text-gray-700">
                 <Mail className="w-4 h-4 text-red-500 shrink-0" />
-                <span>hello@innviilefoundation.org</span>
+                <span>innvillefoundation@gmail.com</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-gray-700">
                 <Phone className="w-4 h-4 text-red-500 shrink-0" />
-                <span>+233 XX XXX XXXX</span>
+                <span>+233 54 781 5672 </span>
               </div>
               <div className="flex items-center gap-3 text-sm text-gray-700">
                 <MapPin className="w-4 h-4 text-red-500 shrink-0" />
