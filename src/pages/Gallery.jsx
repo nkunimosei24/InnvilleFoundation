@@ -47,7 +47,7 @@ export default function Gallery() {
       </section>
 
       {/* BENTO GRID */}
-      <section className="py-14 sm:py-16 bg-gray-900">
+      <section className="py-14 sm:py-16 bg-gray-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           {loading ? (
             <p className="text-center text-white/40 text-sm py-12">Loading gallery...</p>
