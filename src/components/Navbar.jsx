@@ -112,7 +112,7 @@ export default function Navbar() {
             state={{ reason: "Partnership / Sponsorship" }}
             className="mt-2 bg-red-500 text-white text-center px-4 py-3 rounded-md text-sm font-medium hover:bg-red-600 active:bg-red-700 transition-colors"
           >
-            Partner With Us
+            Job Vacancies
           </Link>
         </div>
       </div>
