@@ -1,30 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { programs as staticPrograms } from "../utils/program";
-import { mapDbProgram } from "../utils/mapDbProgram";
-import { supabase } from "../lib/src/lib/supabase";
+import { useAllPrograms } from "../hooks/useAllPrograms";
+import { linkifyProgramNames } from "../utils/linkifyProgramNames";
 import ProgramBadge from "../components/ProgramBadge";
+import { FaLinkedin } from "react-icons/fa";
+import { ArrowRight } from "lucide-react";
+import heroImg from "../assets/images/hero2.jpg";
+import RegistrationModal from "../components/RegistrationModal";
 
 const categories = ["All", "Entrepreneurship", "Skills Training & Development", "Youth Advocacy & Community"];
 
 export default function Programs() {
   const [active, setActive] = useState("All");
-  const [dbPrograms, setDbPrograms] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchDbPrograms = async () => {
-      const { data, error } = await supabase
-        .from("programs")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (!error) setDbPrograms(data.map(mapDbProgram));
-      setLoading(false);
-    };
-    fetchDbPrograms();
-  }, []);
-
-  const allPrograms = [...staticPrograms, ...dbPrograms];
+  const { allPrograms, loading } = useAllPrograms();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filtered =
     active === "All" ? allPrograms : allPrograms.filter((p) => p.category === active);
@@ -32,15 +21,19 @@ export default function Programs() {
   return (
     <div className="w-full bg-white">
       {/* HEADER */}
-      <section className="bg-white py-16 sm:py-20 border-b border-gray-100 text-center px-4">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-red-500 font-semibold uppercase tracking-widest text-xs sm:text-sm">
+      <section
+        className="relative bg-gray-900 py-16 sm:py-20 border-b border-gray-100 text-center px-4 bg-cover bg-center"
+        style={{ backgroundImage: `url(${heroImg})` }}
+      >
+        <div className="absolute inset-0 bg-gray-900/70" />
+        <div className="relative max-w-4xl mx-auto">
+          <p className="text-red-400 font-semibold uppercase tracking-widest text-xs sm:text-sm">
             Our Programs
           </p>
-          <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+          <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
             Co-creating opportunities for young people
           </h1>
-          <p className="mt-5 sm:mt-6 text-gray-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-5 sm:mt-6 text-white/80 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
             Our programs are built around youth employability and advocacy—equipping
             young people with skills, experience, and platforms to lead change and
             build meaningful futures.
@@ -99,7 +92,21 @@ export default function Programs() {
                     key={program.slug}
                     className="group flex flex-col border border-gray-100 rounded-xl p-6 hover:shadow-xl hover:-translate-y-1 hover:border-red-200 transition-all duration-300 bg-white"
                   >
-                    <ProgramBadge program={program} size="md" />
+                    <div className="flex items-start justify-between gap-2">
+                      <ProgramBadge program={program} size="md" />
+                      {program.linkedin && (
+                        <a
+                          href={program.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${program.title} on LinkedIn`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-gray-300 hover:text-blue-400 transition-all opacity-0 group-hover:opacity-100 shrink-0"
+                        >
+                          <FaLinkedin className="w-8 h-8" />
+                        </a>
+                      )}
+                    </div>
 
                     <p className="text-xs font-semibold text-red-500 uppercase tracking-wider">
                       {program.category}
@@ -110,7 +117,7 @@ export default function Programs() {
                     </h3>
 
                     <p className="mt-3 text-gray-600 text-sm leading-relaxed flex-1">
-                      {program.description}
+                      {linkifyProgramNames(program.description, allPrograms, program.slug)}
                     </p>
 
                     <Link
@@ -129,6 +136,38 @@ export default function Programs() {
           )}
         </div>
       </section>
+
+      {/* MINI CTA SECTION */}
+      <section className="bg-gray-900 py-14 sm:py-16 text-center">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+            Are you looking for a job?
+          </h2>
+          <p className="mt-3 text-white/70 text-sm sm:text-base">
+            Register to join the waitlist.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="inline-flex items-center gap-2 bg-red-500 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-medium text-sm hover:bg-red-600 transition-colors"
+            >
+              Join Waitlist <ArrowRight size={18} />
+            </button>
+            <Link
+              to="/programs/gtb"
+              className="inline-flex items-center gap-2 bg-white/10 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-medium text-sm hover:bg-white/20 transition-colors"
+            >
+              Learn more
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <RegistrationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        programTitle="GTB"
+      />
     </div>
   );
 }

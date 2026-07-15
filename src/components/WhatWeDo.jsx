@@ -23,7 +23,7 @@ export default function WhatWeDo() {
             What We Do
           </p>
           <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-            Empowering Young People to Shape the Future
+            Championing youth employment across Ghana
           </h2>
           <p className="mt-5 sm:mt-6 text-base sm:text-lg text-gray-600 leading-relaxed">
             Everything we do is anchored on two strategic pillars that guide our

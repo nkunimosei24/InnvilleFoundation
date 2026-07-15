@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import logo from "../../assets/images/logo4.png";
 
 export default function AdminLogin() {
   const { login } = useAuth();
@@ -31,9 +32,11 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <p className="text-red-500 font-semibold uppercase tracking-widest text-xs">
-            Innville Foundation
-          </p>
+          <img
+            src={logo}
+            alt="Innville Foundation"
+            className="h-14 sm:h-16 w-auto object-contain mx-auto mb-4"
+          />
           <h1 className="mt-2 text-2xl font-bold text-gray-900">Admin Sign In</h1>
         </div>
 

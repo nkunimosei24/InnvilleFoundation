@@ -50,7 +50,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-red-500 font-semibold tracking-widest uppercase text-xs sm:text-sm"
         >
-          Innviile Foundation
+          Innville Foundation
         </motion.p>
 
         <motion.h1
@@ -78,11 +78,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.65 }}
-          className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0"
+          className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center gap-3 sm:gap-4"
         >
           <Link
             to="/programs"
-            className="group bg-red-500 hover:bg-red-600 active:bg-red-700 px-6 py-3.5 sm:py-3 rounded-md font-medium text-sm sm:text-base transition-colors shadow-lg shadow-red-500/20 flex items-center justify-center gap-2"
+            className="group bg-red-500 hover:bg-red-600 active:bg-red-700 px-5 py-2.5 sm:px-6 sm:py-3 rounded-md font-medium text-sm transition-colors shadow-lg shadow-red-500/20 flex items-center justify-center gap-2"
           >
             Explore Our Programs
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -90,7 +90,7 @@ export default function Hero() {
           <Link
             to="/contact"
             state={{ reason: "Partnership / Sponsorship" }}
-            className="border border-white/40 hover:border-white hover:bg-white/10 active:bg-white/20 px-6 py-3.5 sm:py-3 rounded-md text-sm sm:text-base transition-colors text-center"
+            className="border border-white/40 hover:border-white hover:bg-white/10 active:bg-white/20 px-5 py-2.5 sm:px-6 sm:py-3 rounded-md text-sm transition-colors text-center"
           >
             Partner With Us
           </Link>

@@ -67,11 +67,10 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <Link
-          to="/contact"
-          state={{ reason: "Partnership / Sponsorship" }}
+          to="/jobs"
           className="hidden md:inline-block bg-red-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-600 active:bg-red-700 transition-colors shrink-0"
         >
-          Partner With Us
+          Job Vacancies
         </Link>
 
         {/* Mobile menu toggle */}

@@ -1,65 +1,44 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import RegistrationModal from "./RegistrationModal";
+
+
 
 export default function CTA() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <section className="relative py-16 sm:py-20 md:py-24 bg-red-500 text-white text-center overflow-hidden">
-      {/* Decorative background pattern */}
-      <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, white 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }}
-        aria-hidden="true"
-      />
-      <div
-        className="absolute -top-24 -right-24 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute -bottom-24 -left-24 w-72 h-72 bg-red-700/30 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-
-      <div className="relative max-w-3xl mx-auto px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
-          Co-creators of the Future
-        </h2>
-
-        <p className="mt-4 sm:mt-5 text-white/90 text-sm sm:text-base leading-relaxed">
-          We are building a future where young people lead with innovation,
-          purpose, and impact—through{" "}
-          <span className="font-semibold text-white">Youth Employability</span>{" "}
-          and{" "}
-          <span className="font-semibold text-white">Youth Advocacy</span>.
-        </p>
-
-        <p className="mt-3 sm:mt-4 text-white/75 text-sm sm:text-base leading-relaxed">
-          At Innville Foundation, we co-create opportunities in
-          entrepreneurship, skills development, internships, and
-          advocacy—empowering young people to move from ambition to action.
-        </p>
-
-        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
-          <Link
-            to="/contact"
-            className="group inline-flex items-center justify-center gap-2 bg-white text-red-500 px-6 py-3 rounded-md font-medium text-sm sm:text-base hover:bg-red-50 active:bg-red-100 transition-colors shadow-lg shadow-red-700/20"
+    <section className="py-14 sm:py-16 bg-gray-900 text-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div>
+          <h3 className="text-xl sm:text-2xl font-bold">
+            Join the National Internship Program (NIP)
+          </h3>
+          <p className="mt-2 text-white/70 text-sm sm:text-base">
+            Build your job readiness now.
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-md text-sm font-medium transition-colors"
           >
-            Get Involved
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-          </Link>
-
+            Join NIP
+          </button>
           <Link
-            to="/programs"
-            className="inline-flex items-center justify-center gap-2 border border-white/80 px-6 py-3 rounded-md text-sm sm:text-base hover:bg-white/10 active:bg-white/20 transition-colors"
+            to={`/programs/national-internship-program`}
+            className="border border-white/40 hover:border-white hover:bg-white/10 px-5 py-3 rounded-md text-sm font-medium transition-colors text-center"
           >
-            Explore Programs
+            Learn More
           </Link>
-
         </div>
       </div>
+
+      <RegistrationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        programTitle="National Internship Program"
+      />
     </section>
   );
 }

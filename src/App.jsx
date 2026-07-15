@@ -14,6 +14,7 @@ import AdminLogin from './pages/admin/AdminLogin'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import Gallery from './pages/Gallery'
+import JobVacancy from './pages/JobVacancy'
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/programs/:slug" element={<ProgramDetails />} />
         <Route path="/gallery" element={<Gallery />} />
+         <Route path="/jobs" element={<JobVacancy />} />
       </Route>
      <Route path="/admin/login" element={<AdminLogin />} />
      <Route

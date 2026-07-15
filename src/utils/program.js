@@ -136,6 +136,7 @@ export const programs = [
     category: "Skills Training & Development",
     logo: skillSetLabLogo,
     icon: Wrench,
+    linkedin: "https://www.linkedin.com/company/skillset-lab/", 
     description:
       "A practical skills development program that equips young people with digital, entrepreneurial, and workplace skills, creating direct pathways to income and employment opportunities.",
     opportunity: {
@@ -151,9 +152,12 @@ export const programs = [
     },
     approach: {
       intro:
-        "SkillSet Lab runs in cohorts throughout the year and focuses on practical, hands-on learning, ensuring participants don't just learn—but can apply their skills immediately. Training areas include:",
+        "SkillSet Lab runs in cohorts throughout the year on a 14-week intensive model, focused on practical, hands-on learning, ensuring participants don't just learn—but can apply their skills immediately. Training is centered on market-demand, income-generating skills, including:",
       points: [
-        "Digital skills (e.g., design, marketing, tech tools)",
+        "AI for work productivity",
+        "Digital marketing",
+        "Data analysis",
+        "Green skills training",
         "Professional and workplace readiness skills",
         "Problem-solving and productivity tools",
       ],
@@ -179,6 +183,8 @@ export const programs = [
       ],
     },
     impact: [
+      "Fellows Average Completion Rate: 76%",
+      "Fellows Placement Rate (jobs, internships, and freelance): 71%",
       "Reducing youth unemployment",
       "Increasing digital and workforce readiness",
       "Creating sustainable income pathways for young people",
@@ -193,15 +199,17 @@ export const programs = [
   {
     slug: "national-internship-program",
     title: "National Internship Program (NIP)",
-     rollingAdmission: true,
+    rollingAdmission: true,
     tagline: "From Learning to Real Work Experience",
     category: "Skills Training & Development",
     logo: NIPLogo,
     icon: Briefcase,
+    linkedin: "https://www.linkedin.com/company/national-internship-programme/", // TODO: add NIP's LinkedIn page URL
     description:
       "A nationwide internship initiative that connects young people to real workplace experience, mentorship, and career readiness support to transition from learning to earning.",
     opportunity: {
-      intro: "Each year, thousands of young people enter the job market, but many struggle to secure jobs due to:",
+      intro:
+        "For many young people in Ghana, the biggest barrier to employment is not education—it is experience. Employers are looking for practical skills and workplace exposure, yet most students and graduates have little or no opportunity to gain it. Each year, thousands of young people enter the job market, but many struggle to secure jobs due to:",
       points: [
         "Lack of hands-on workplace experience",
         "Limited exposure to professional environments",
@@ -251,11 +259,12 @@ export const programs = [
   {
     slug: "ghana-talent-bank",
     title: "Ghana Talent Bank (GTB)",
-     rollingAdmission: true,
-    tagline: "Connecting Skills, Experience, and Opportunity at Scale",
+    rollingAdmission: true,
+    tagline: "Ghana's Largest Pool of Vetted and Verified Young Talents",
     category: "Skills Training & Development",
     logo: GTBLogo,
     icon: Users,
+    linkedin: "https://www.linkedin.com/company/ghana-talent-bank/", 
     description:
       "A national talent platform connecting vetted, job-ready young professionals to employers, freelance opportunities, and full-time roles based on verified experience.",
     opportunity: {
@@ -366,19 +375,58 @@ export const programs = [
   {
     slug: "bizbridge",
     title: "BizBridge Project",
-     rollingAdmission: true,
+    rollingAdmission: true,
     tagline: "Connecting Talent to Growing Businesses",
     category: "Entrepreneurship",
     logo: BizbridgeLogo,
     icon: Handshake,
     description:
       "An MSME support initiative that connects skilled interns to SMEs, helping them strengthen operations, improve productivity, and scale—while providing young people with valuable workplace experience.",
+    opportunity: {
+      intro:
+        "Small and Medium-sized Enterprises (SMEs) are the backbone of Ghana's economy, yet many struggle to grow due to limited access to skilled and affordable human resource support. High hiring costs, capacity gaps, and operational inefficiencies often prevent SMEs from scaling, improving productivity, and competing effectively. BizBridge, an initiative of Innville Foundation, is designed to address this gap by providing SMEs across Ghana with structured, affordable support to strengthen their operations and drive growth.",
+      points: [],
+    },
+    approach: {
+      intro: "BizBridge delivers targeted business support through a simple, structured model:",
+      points: [
+        "Needs-Based SME Support — SMEs are assessed and matched with skilled interns from our National Internship Program based on specific operational gaps such as marketing, administration, customer service, IT support, and business operations",
+        "Structured 3-Month Engagement Cycles — businesses receive dedicated support (up to 3 interns) over a defined period, ensuring focused execution and measurable results",
+        "Ongoing Monitoring & Performance Tracking — Innville Foundation coordinates supervision, tracks progress, and ensures accountability through continuous feedback and evaluation",
+        "Flexible Delivery Model — support is provided remotely or in hybrid formats, making it accessible to SMEs across the country",
+      ],
+    },
+    different: [
+      { title: "Affordable Access to Talent", text: "SMEs gain access to skilled support without the high cost of full-time hiring." },
+      { title: "Designed for Measurable Impact", text: "The program is structured to deliver clear improvements in productivity, sales, digital presence, and operational efficiency." },
+      { title: "Tailored to SME Needs", text: "Support is based on real business gaps—not generic solutions—ensuring relevance and value." },
+      { title: "Scalable and Nationwide", text: "BizBridge supports SMEs across Ghana, regardless of location or sector." },
+    ],
     whoFor: [
-      "SMEs looking to strengthen operations and productivity",
-      "Skilled young people seeking hands-on workplace experience",
+      "Micro, Small, and Medium Enterprises (MSMEs) seeking affordable support to grow",
+      "Startups and growing businesses looking to improve operations and scale",
+      "SMEs with limited internal capacity in areas like marketing, admin, IT, or customer engagement",
+      "Business owners looking to reduce workload and improve efficiency",
+    ],
+    gain: {
+      intro: "Through BizBridge, SMEs gain:",
+      points: [
+        "Increased Productivity — delegate key tasks and focus on strategic growth",
+        "Improved Business Operations — strengthen internal systems, workflows, and processes",
+        "Stronger Digital Presence — enhance visibility, engagement, and online performance",
+        "Cost-Effective Support — access skilled talent at a fraction of traditional hiring costs",
+        "Business Growth Opportunities — improve customer reach, sales, and overall performance",
+      ],
+    },
+    impact: [
+      "Improved productivity and operational efficiency",
+      "Increased customer engagement and digital visibility",
+      "Reduction in operational and hiring costs",
+      "Strengthened capacity for business growth and sustainability",
+      "Continued access to talent through repeat engagement cycles",
     ],
     whyMatters:
-      "BizBridge bridges the gap between growing businesses that need capable hands and young people who need real workplace experience—creating value on both sides.",
+      "BizBridge is a practical, scalable solution to one of the biggest barriers facing SMEs—access to the right talent at the right cost. By strengthening SMEs at the operational level, the project drives business growth, supports job creation, and contributes to a more resilient and inclusive economy.",
     getInvolved:
       "Interested in hosting an intern or joining as a participant? Register your interest and be part of the BizBridge network.",
   },
@@ -390,15 +438,53 @@ export const programs = [
     category: "Youth Advocacy & Community",
     logo: NYELogo,
     icon: Megaphone,
+    linkedin: "https://www.linkedin.com/company/national-youth-employment-summit/", // TODO: add NYE Summit's LinkedIn page URL
     description:
       "We convene stakeholders across the employment ecosystem to drive dialogue, partnerships, and action on youth employment, while creating direct pathways for young people to access jobs and opportunities.",
+    opportunity: {
+      intro:
+        "The National Youth Employment Summit (NYE Summit) is a flagship annual convening organized by Innville Foundation to unite stakeholders across Ghana's youth employment ecosystem. The summit serves as a national platform for dialogue, collaboration, and action, bringing together government agencies, private sector employers, development partners, civil society organizations, academic/training institutions, and young people.",
+      points: [],
+    },
+    approach: {
+      intro: "The summit is structured around two core sessions:",
+      points: [
+        "Policy Dialogue & Ecosystem Alignment — high-level panels and focused discussions bringing together government, industry, and development partners to align strategies and address key employment challenges",
+        "Job Fair & Opportunity Expo — a results-driven engagement featuring on-the-spot interviews, recruitment, internships, and direct interaction between employers and youth",
+      ],
+    },
+    different: [
+      { title: "Bridging Policy and Practice", text: "The summit goes beyond discussions by directly linking dialogue to employment outcomes through its job fair model." },
+      { title: "A Truly Multi-Stakeholder Platform", text: "It convenes government, private sector, NGOs, training institutions, and youth in one coordinated space—breaking silos across the ecosystem." },
+      { title: "Outcome-Oriented Design", text: "Structured to deliver measurable results—targeting at least 25% of participants every year securing jobs, internships, or freelance opportunities, alongside strategic partnerships and actionable policy insights." },
+      { title: "National Scope, Local Impact", text: "While national in outlook, the summit ensures direct, practical benefits for individual participants and organizations." },
+    ],
     whoFor: [
-      "Policymakers and government stakeholders",
-      "Employers and industry leaders",
-      "Young job seekers and entrepreneurs",
+      "Young People — job seekers, students, recent graduates, and aspiring entrepreneurs",
+      "Employers — companies seeking skilled talent and workforce solutions",
+      "Government & Policymakers — institutions shaping employment policies and programs",
+      "Training & Academic Institutions — organizations building skills and talent pipelines",
+      "Development Partners, NGOs & CSOs — actors driving employment and inclusion initiatives",
+      "Innovation Hubs & Startups — platforms supporting entrepreneurship and digital jobs",
+    ],
+    gain: {
+      intro: "Participants gain:",
+      points: [
+        "Direct Access to Opportunities — jobs, internships, training programs, and funding opportunities",
+        "Industry Insights & Knowledge — exposure to trends shaping the future of work, skills demand, and emerging sectors",
+        "Networking & Collaboration — connections with employers, policymakers, and ecosystem leaders",
+        "Career Development Support — CV reviews, mentorship, and guidance on navigating career pathways",
+        "Visibility & Exposure (for organizations) — a platform to showcase programs, recruit talent, and build partnerships",
+      ],
+    },
+    impact: [
+      "Facilitate employment and internship placements for at least 25% of participating youth each year",
+      "Increase awareness and uptake of existing employment programs and initiatives from government and employment ecosystem players",
+      "Strengthen collaboration across sectors within the employment ecosystem",
+      "Generate actionable insights to inform national employment strategies",
     ],
     whyMatters:
-      "Solving youth unemployment requires collective action. The NYE Summit brings the entire ecosystem together—not just to talk, but to create direct pathways to opportunity.",
+      "The NYE Summit is the only platform in Ghana that convenes the full youth employment ecosystem—transforming dialogue into real jobs, strategic partnerships, and coordinated national action for a more inclusive, future-ready workforce.",
     getInvolved:
       "Interested in attending, speaking, or partnering on the next NYE Summit? Get in touch to learn more.",
   },

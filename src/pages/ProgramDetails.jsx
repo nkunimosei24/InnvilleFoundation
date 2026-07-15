@@ -1,26 +1,17 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
-import { getProgramBySlug, programs as staticPrograms } from "../utils/program";
-import { mapDbProgram } from "../utils/mapDbProgram";
-import { supabase } from "../lib/src/lib/supabase";
+import { getProgramBySlug } from "../utils/program";
+import { useAllPrograms } from "../hooks/useAllPrograms";
+import { linkifyProgramNames } from "../utils/linkifyProgramNames";
 import ProgramBadge from "../components/ProgramBadge";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import RegistrationModal from "../components/RegistrationModal";
+import { FaLinkedin } from "react-icons/fa";
 
 export default function ProgramDetails() {
   const { slug } = useParams();
-  const [dbPrograms, setDbPrograms] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { allPrograms, loading } = useAllPrograms();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const fetchDbPrograms = async () => {
-      const { data, error } = await supabase.from("programs").select("*");
-      if (!error) setDbPrograms(data.map(mapDbProgram));
-      setLoading(false);
-    };
-    fetchDbPrograms();
-  }, []);
 
   if (loading) {
     return (
@@ -30,13 +21,13 @@ export default function ProgramDetails() {
     );
   }
 
-  const allPrograms = [...staticPrograms, ...dbPrograms];
   const program = getProgramBySlug(slug) || allPrograms.find((p) => p.slug === slug);
 
   if (!program) return <Navigate to="/programs" replace />;
 
   const Icon = program.icon;
   const otherPrograms = allPrograms.filter((p) => p.slug !== program.slug).slice(0, 3);
+  const linkify = (text) => linkifyProgramNames(text, allPrograms, program.slug);
 
   return (
     <div className="w-full bg-white">
@@ -53,9 +44,21 @@ export default function ProgramDetails() {
          <ProgramBadge program={program} size="lg" inverted />
 
 
-          <p className="text-red-400 font-semibold uppercase tracking-widest text-xs sm:text-sm">
-            {program.category}
-          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="text-red-400 font-semibold uppercase tracking-widest text-xs sm:text-sm">
+              {program.category}
+            </p>
+            {program.linkedin && (
+              <a
+                href={program.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-xs sm:text-sm font-medium transition-colors"
+              >
+                <FaLinkedin className="w-4 h-4" /> Follow on LinkedIn
+              </a>
+            )}
+          </div>
           <h1 className="mt-3 text-2xl sm:text-4xl md:text-5xl font-bold leading-tight">
             {program.title}
           </h1>
@@ -63,7 +66,7 @@ export default function ProgramDetails() {
             <p className="mt-4 text-lg sm:text-xl text-white/70 italic">{program.tagline}</p>
           )}
           <p className="mt-5 text-white/80 text-sm sm:text-base leading-relaxed max-w-2xl">
-            {program.description}
+            {linkify(program.description)}
           </p>
         </div>
       </section>
@@ -73,19 +76,19 @@ export default function ProgramDetails() {
         {program.opportunity && (
           <section>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900">The Opportunity</h2>
-            <p className="mt-4 text-gray-600 leading-relaxed">{program.opportunity.intro}</p>
+            <p className="mt-4 text-gray-600 leading-relaxed">{linkify(program.opportunity.intro)}</p>
             {program.opportunity.points?.length > 0 && (
               <ul className="mt-4 space-y-2.5">
                 {program.opportunity.points.map((point, i) => (
                   <li key={i} className="flex items-start gap-2.5 text-gray-600 text-sm sm:text-base">
                     <span className="mt-2 w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-                    {point}
+                    {linkify(point)}
                   </li>
                 ))}
               </ul>
             )}
             {program.opportunity.closing && (
-              <p className="mt-4 text-gray-600 leading-relaxed">{program.opportunity.closing}</p>
+              <p className="mt-4 text-gray-600 leading-relaxed">{linkify(program.opportunity.closing)}</p>
             )}
           </section>
         )}
@@ -94,13 +97,13 @@ export default function ProgramDetails() {
         {program.approach && (
           <section>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Our Approach</h2>
-            <p className="mt-4 text-gray-600 leading-relaxed">{program.approach.intro}</p>
+            <p className="mt-4 text-gray-600 leading-relaxed">{linkify(program.approach.intro)}</p>
             {program.approach.points?.length > 0 && (
               <ul className="mt-4 space-y-2.5">
                 {program.approach.points.map((point, i) => (
                   <li key={i} className="flex items-start gap-2.5 text-gray-600 text-sm sm:text-base">
                     <CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
-                    {point}
+                    {linkify(point)}
                   </li>
                 ))}
               </ul>
@@ -120,7 +123,7 @@ export default function ProgramDetails() {
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900">{step.title}</p>
-                    <p className="text-sm text-gray-600 mt-1">{step.text}</p>
+                    <p className="text-sm text-gray-600 mt-1">{linkify(step.text)}</p>
                   </div>
                 </div>
               ))}
@@ -138,7 +141,7 @@ export default function ProgramDetails() {
               {program.different.map((item, i) => (
                 <div key={i} className="p-4 sm:p-5 bg-red-50 rounded-xl border border-red-100">
                   <p className="font-semibold text-red-600 text-sm sm:text-base">{item.title}</p>
-                  <p className="mt-1.5 text-sm text-gray-600">{item.text}</p>
+                  <p className="mt-1.5 text-sm text-gray-600">{linkify(item.text)}</p>
                 </div>
               ))}
             </div>
@@ -153,7 +156,7 @@ export default function ProgramDetails() {
               {program.whoFor.map((item, i) => (
                 <li key={i} className="flex items-start gap-2.5 text-gray-600 text-sm sm:text-base">
                   <CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
-                  {item}
+                  {linkify(item)}
                 </li>
               ))}
             </ul>
@@ -164,18 +167,18 @@ export default function ProgramDetails() {
         {program.gain && (
           <section>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900">What Participants Gain</h2>
-            <p className="mt-4 text-gray-600 leading-relaxed">{program.gain.intro}</p>
+            <p className="mt-4 text-gray-600 leading-relaxed">{linkify(program.gain.intro)}</p>
             <ul className="mt-4 space-y-2.5">
               {program.gain.points.map((point, i) => (
                 <li key={i} className="flex items-start gap-2.5 text-gray-600 text-sm sm:text-base">
                   <span className="mt-2 w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-                  {point}
+                  {linkify(point)}
                 </li>
               ))}
             </ul>
             {program.gain.closing && (
               <p className="mt-4 p-4 bg-red-50 border border-red-100 rounded-lg text-gray-700 text-sm sm:text-base font-medium">
-                {program.gain.closing}
+                {linkify(program.gain.closing)}
               </p>
             )}
           </section>
@@ -190,7 +193,7 @@ export default function ProgramDetails() {
                 <div key={i} className="p-4 sm:p-5 bg-gray-50 rounded-xl border border-gray-100">
                   <span className="text-2xl font-bold text-red-100">0{i + 1}</span>
                   <p className="mt-2 font-semibold text-gray-900 text-sm sm:text-base">{phase.title}</p>
-                  <p className="mt-1.5 text-sm text-gray-600">{phase.text}</p>
+                  <p className="mt-1.5 text-sm text-gray-600">{linkify(phase.text)}</p>
                 </div>
               ))}
             </div>
@@ -205,7 +208,7 @@ export default function ProgramDetails() {
               {program.impact.map((item, i) => (
                 <li key={i} className="flex items-start gap-2.5 text-gray-600 text-sm sm:text-base">
                   <span className="mt-2 w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-                  {item}
+                  {linkify(item)}
                 </li>
               ))}
             </ul>
@@ -217,7 +220,7 @@ export default function ProgramDetails() {
           <section className="p-6 sm:p-8 bg-gray-900 text-white rounded-2xl">
             <h2 className="text-xl sm:text-2xl font-bold">Why It Matters</h2>
             <p className="mt-4 text-white/80 leading-relaxed text-sm sm:text-base">
-              {program.whyMatters}
+              {linkify(program.whyMatters)}
             </p>
           </section>
         )}

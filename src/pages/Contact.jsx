@@ -46,7 +46,7 @@ export default function Contact() {
         </h1>
         <p className="mt-5 sm:mt-6 text-gray-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
           Whether you're interested in our programs, exploring partnerships,
-          or simply want to learn more about Innviile Foundation, we'd love to
+          or simply want to learn more about Innville Foundation, we'd love to
           hear from you.
         </p>
       </section>
@@ -111,15 +111,15 @@ export default function Contact() {
             <div className="mt-8 pt-8 border-t border-gray-200 space-y-3">
               <div className="flex items-center gap-3 text-sm text-gray-700">
                 <Mail className="w-4 h-4 text-red-500 shrink-0" />
-                <span>innvillefoundation@gmail.com</span>
+                <span>infor@innvillefoundation.com</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-gray-700">
                 <Phone className="w-4 h-4 text-red-500 shrink-0" />
-                <span>+233 54 781 5672 </span>
+                <span>+233 59 593 6713 / +233 54 781 5672.</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-gray-700">
                 <MapPin className="w-4 h-4 text-red-500 shrink-0" />
-                <span>Accra, Ghana</span>
+                <span>21 Jordan Street, Madina Estates</span>
               </div>
             </div>
           </div>

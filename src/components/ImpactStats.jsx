@@ -3,7 +3,7 @@ import CountUp from "./CountUp";
 
 const stats = [
   { label: "Employability Initiatives", value: 10, suffix: "+" },
-  { label: "Youth Empowered", value: 2000, suffix: "+" },
+  { label: "Youth Empowered", value: 5000, suffix: "+" },
   { label: "Businesses Supported", value: 200, suffix: "+" },
 ];
 

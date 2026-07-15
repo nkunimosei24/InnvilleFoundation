@@ -1,4 +1,5 @@
 // src/components/Partners.jsx
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import GHNlogo from "../assets/images/ghn.jpeg";
 import winnebalogo from "../assets/images/win.jpeg";
@@ -9,8 +10,9 @@ import GLAlogo from "../assets/images/GLA.jpeg";
 import MWGlogo from "../assets/images/mwg.png";
 import UNlogo from "../assets/images/sdsn.png";
 import AUlogo from "../assets/images/eco.png";
+import { supabase } from "../lib/src/lib/supabase";
 
-const partners = [
+const staticPartners = [
   { name: "Ghana Hubs Network", logo: GHNlogo },
   { name: "University of Education Winneba", logo: winnebalogo },
   { name: "Ghana Chamber of Young Entrepreneurs (GYCE)", logo: GYCElogo },
@@ -18,12 +20,12 @@ const partners = [
   { name: "ISpace Foundation", logo: ISpaceLogo },
   { name: "Ghana Library Authority", logo: GLAlogo },
   { name: "Mobile Web Ghana", logo: MWGlogo },
-   {name: "Sustainable Development Solutions Network - Youth Initiative of the United Nations", logo: UNlogo },
-    {name: "Economic Social & Cultural Council of The African Union (ECOSOCC - AU)", logo: AUlogo }
+  { name: "Sustainable Development Solutions Network - Youth Initiative of the United Nations", logo: UNlogo },
+  { name: "Economic Social & Cultural Council of The African Union (ECOSOCC - AU)", logo: AUlogo },
 ];
 
 function PartnerTile({ partner }) {
-  return (
+  const tile = (
     <div className="h-20 sm:h-24 w-40 sm:w-48 flex items-center justify-center bg-gray-50 rounded-xl opacity-70 hover:opacity-100 hover:bg-white hover:shadow-md transition-all duration-300 p-4 shrink-0 mx-2.5 sm:mx-3">
       {partner.logo ? (
         <img
@@ -38,17 +40,58 @@ function PartnerTile({ partner }) {
       )}
     </div>
   );
+
+  // Admin-added partners may include a website link; wrap the tile so it's clickable.
+  if (partner.websiteUrl) {
+    return (
+      <a
+        href={partner.websiteUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Visit ${partner.name}'s website`}
+      >
+        {tile}
+      </a>
+    );
+  }
+
+  return tile;
 }
 
 export default function Partners() {
-  // Duplicate the list so the loop is seamless
-  const loopedPartners = [...partners, ...partners];
+  const [dbPartners, setDbPartners] = useState([]);
+
+  useEffect(() => {
+    const fetchPartners = async () => {
+      const { data, error } = await supabase
+        .from("partners")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        setDbPartners(
+          data.map((row) => ({
+            name: row.name,
+            logo: row.logo_url,
+            websiteUrl: row.website_url,
+          }))
+        );
+      }
+    };
+
+    fetchPartners();
+  }, []);
+
+  // Static logos first, then whatever admins have added
+  const allPartners = [...staticPartners, ...dbPartners];
+  // Duplicate the list so the marquee loop is seamless
+  const loopedPartners = [...allPartners, ...allPartners];
 
   return (
     <section className="py-14 sm:py-16 bg-white border-y border-gray-100 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <p className="text-center text-gray-500 text-xs sm:text-sm font-medium uppercase tracking-widest">
-          Trusted by Organizations Building the Future With Us
+          Trusted by Organizations Co-creating the Future With Us
         </p>
       </div>
 
