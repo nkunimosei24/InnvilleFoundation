@@ -153,9 +153,12 @@ export default function About() {
             >
               Get Interns
             </button>
-            <a href="/programs/bizbridge" className="border border-white/40 hover:border-white hover:bg-white/10 px-5 py-3 rounded-md text-sm font-medium transition-colors text-center">
+            <Link
+              to="/programs/bizbridge"
+              className="border border-white/40 hover:border-white hover:bg-white/10 px-5 py-3 rounded-md text-sm font-medium transition-colors text-center"
+            >
               Learn More
-            </a>
+            </Link>
           </div>
         </div>
       </section>
