@@ -7,11 +7,11 @@ import { linkifyProgramNames } from "../utils/linkifyProgramNames";
 const testimonials = [
   {
     quote:
-      "SkillSet Lab didn't just teach me digital skills—it connected me to a community of people building alongside me. That support system made all the difference.",
+      "I've had the privilege of participating in two of their training programmes, Graphic Design and AI for Work Productivity. The impact has been both immediate and lasting. The three-day AI for Work Productivity training (in April) challenged participants to design a flyer and build a website for a business of our choice using AI tools.",
     name: "Diana Osei",
     role: "SkillSet Lab Fellow",
     program: "SkillSet Lab",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/posts/dianadosei_worldyouthskillsday-worldyouthskillsday-ai-activity-7483269382228316160-RmwV?utm_source=share&utm_medium=member_ios&rcm=ACoAADKIUOgB1kihOFFIGZdmf-_bNfnuvBde9ek",
   },
   {
     quote:
