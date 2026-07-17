@@ -111,7 +111,7 @@ export default function Footer() {
                 <span>21 Jordan Street, Madina Estates, Accra, Ghana</span>
               </div>
               <a
-                href="mailto:innvillefoundation@gmail.com"
+                href="mailto:infor@innvillefoundation.org"
                 className="flex items-center gap-2.5 hover:text-red-400 transition-colors w-fit"
               >
                 <Mail className="w-4 h-4 text-red-500 shrink-0" />
