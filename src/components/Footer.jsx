@@ -115,7 +115,7 @@ export default function Footer() {
                 className="flex items-center gap-2.5 hover:text-red-400 transition-colors w-fit"
               >
                 <Mail className="w-4 h-4 text-red-500 shrink-0" />
-                <span>infor@innvillefoundation.com</span>
+                <span>infor@innvillefoundation.org</span>
               </a>
               <a href="tel:+233547815672 / +233 59 593 6713" className="flex items-center gap-2.5 hover:text-red-400 transition-colors w-fit">
                 <Phone className="w-4 h-4 text-red-500 shrink-0" />

@@ -15,12 +15,15 @@ import ProtectedRoute from './components/ProtectedRoute'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import Gallery from './pages/Gallery'
 import JobVacancy from './pages/JobVacancy'
+import ScrollToTop from './components/ScrollToTop'
 
 
 function App() {
   
 
   return (
+    <>
+    <ScrollToTop/>
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
@@ -42,6 +45,7 @@ function App() {
 />
 
     </Routes>
+    </>
     
   )
 }
