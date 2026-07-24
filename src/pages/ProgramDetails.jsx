@@ -135,7 +135,7 @@ export default function ProgramDetails() {
         {program.different && (
           <section>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-              What Makes {program.title.split(" ")[0]} Different
+              What Makes {program.title} Different
             </h2>
             <div className="mt-5 grid sm:grid-cols-2 gap-4">
               {program.different.map((item, i) => (

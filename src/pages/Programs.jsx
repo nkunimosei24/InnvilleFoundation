@@ -31,7 +31,7 @@ export default function Programs() {
             Our Programs
           </p>
           <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
-            Co-creating opportunities for young people
+            Co-creating opportunities with young people
           </h1>
           <p className="mt-5 sm:mt-6 text-white/80 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
             Our programs are built around youth employability and advocacy—equipping
