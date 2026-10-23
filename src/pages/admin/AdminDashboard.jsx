@@ -1258,7 +1258,7 @@ function JobsPanel() {
                             <div>
                                 <label className="block text-xs font-medium text-gray-700 mb-1.5">Application Deadline</label>
                                 <input
-                                    type="date" name="deadline" required value={form.deadline} onChange={handleChange}
+                                    type="date" name="deadline" value={form.deadline} onChange={handleChange}
                                     className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
                                 />
                             </div>
@@ -1266,7 +1266,7 @@ function JobsPanel() {
                             <div>
                                 <label className="block text-xs font-medium text-gray-700 mb-1.5">Application Link</label>
                                 <input
-                                    type="url" name="application_url" required value={form.application_url} onChange={handleChange}
+                                    type="url" name="application_url" value={form.application_url} onChange={handleChange}
                                     placeholder="https://..."
                                     className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
                                 />
