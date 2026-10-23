@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Briefcase, Calendar, MapPin, ExternalLink } from "lucide-react";
+import { Briefcase, Calendar, MapPin, ExternalLink, X, ZoomIn } from "lucide-react";
 import { supabase } from "../lib/src/lib/supabase";
 
 export default function JobVacancy() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -19,6 +20,18 @@ export default function JobVacancy() {
 
     fetchJobs();
   }, []);
+
+  // Close lightbox on Escape + lock body scroll while open
+  useEffect(() => {
+    if (!preview) return;
+    const onKeyDown = (e) => e.key === "Escape" && setPreview(null);
+    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [preview]);
 
   const isExpired = (deadline) =>
     deadline ? new Date(`${deadline}T23:59:59`) < new Date() : false;
@@ -61,18 +74,28 @@ export default function JobVacancy() {
                   >
                     <div className="relative h-40 sm:h-44 overflow-hidden bg-gray-100">
                       {job.image_url ? (
-                        <img
-                          src={job.image_url}
-                          alt={`${job.title} flyer`}
-                          className="w-full h-full object-cover"
-                        />
+                        <button
+                          type="button"
+                          onClick={() => setPreview({ src: job.image_url, title: job.title })}
+                          aria-label={`View ${job.title} flyer`}
+                          className="group relative block w-full h-full cursor-zoom-in"
+                        >
+                          <img
+                            src={job.image_url}
+                            alt={`${job.title} flyer`}
+                            className="w-full h-full object-cover"
+                          />
+                          <span className="absolute bottom-2 right-2 bg-black/60 text-white p-1.5 rounded-full sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                            <ZoomIn className="w-4 h-4" />
+                          </span>
+                        </button>
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-red-50">
                           <Briefcase className="w-8 h-8 text-red-200" />
                         </div>
                       )}
                       {expired && (
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center pointer-events-none">
                           <span className="text-white text-xs font-semibold uppercase tracking-wide bg-black/60 px-3 py-1 rounded-full">
                             Deadline passed
                           </span>
@@ -140,6 +163,28 @@ export default function JobVacancy() {
           )}
         </div>
       </section>
+
+      {/* IMAGE LIGHTBOX */}
+      {preview && (
+        <div
+          onClick={() => setPreview(null)}
+          className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8"
+        >
+          <button
+            onClick={() => setPreview(null)}
+            aria-label="Close"
+            className="absolute top-4 right-4 bg-white/10 hover:bg-red-500 text-white p-2 rounded-full transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          <img
+            src={preview.src}
+            alt={`${preview.title} flyer`}
+            onClick={(e) => e.stopPropagation()}
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+          />
+        </div>
+      )}
     </div>
   );
 }
