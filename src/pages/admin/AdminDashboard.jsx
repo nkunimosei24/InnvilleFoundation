@@ -1054,7 +1054,7 @@ function JobsPanel() {
         const { data, error } = await supabase
             .from("job_vacancies")
             .select("*")
-            .order("deadline", { ascending: true });
+            .order("deadline", { ascending: true, nullsFirst: false });
         if (!error) setRows(data);
         setLoading(false);
     };
@@ -1073,7 +1073,14 @@ function JobsPanel() {
     };
 
     const openEditForm = (row) => {
-        setForm(row);
+        setForm({
+            ...row,
+            deadline: row.deadline || "",
+            company: row.company || "",
+            location: row.location || "",
+            application_url: row.application_url || "",
+            description: row.description || "",
+        });
         setEditingId(row.id);
         setImageFile(null);
         setImagePreview(row.image_url || "");
@@ -1101,7 +1108,15 @@ function JobsPanel() {
         setSaving(true);
         setError("");
 
-        let finalForm = { ...form };
+        // Empty strings -> null so Postgres (esp. the date column) accepts them
+        let finalForm = {
+            ...form,
+            deadline: form.deadline || null,
+            location: form.location || null,
+            company: form.company || null,
+            application_url: form.application_url || null,
+            description: form.description || null,
+        };
 
         if (imageFile) {
             const fileExt = imageFile.name.split(".").pop();
@@ -1179,7 +1194,7 @@ function JobsPanel() {
                                 <p className="font-semibold text-gray-900">{row.title}</p>
                                 <p className="text-sm text-gray-500 mt-0.5">
                                     {row.company && `${row.company} · `}
-                                    Deadline: {row.deadline}
+                                    {row.deadline ? `Deadline: ${row.deadline}` : "Not Specified"}
                                     {row.location && ` · ${row.location}`}
                                 </p>
                             </div>
@@ -1256,7 +1271,9 @@ function JobsPanel() {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-medium text-gray-700 mb-1.5">Application Deadline</label>
+                                <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                    Application Deadline <span className="text-gray-400 font-normal">(optional)</span>
+                                </label>
                                 <input
                                     type="date" name="deadline" value={form.deadline} onChange={handleChange}
                                     className="w-full border border-gray-200 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500"

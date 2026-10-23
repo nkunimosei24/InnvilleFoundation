@@ -11,7 +11,7 @@ export default function JobVacancy() {
       const { data, error } = await supabase
         .from("job_vacancies")
         .select("*")
-        .order("deadline", { ascending: true });
+        .order("deadline", { ascending: true, nullsFirst: false });
 
       if (!error) setJobs(data);
       setLoading(false);
@@ -20,7 +20,8 @@ export default function JobVacancy() {
     fetchJobs();
   }, []);
 
-  const isExpired = (deadline) => new Date(`${deadline}T23:59:59`) < new Date();
+  const isExpired = (deadline) =>
+    deadline ? new Date(`${deadline}T23:59:59`) < new Date() : false;
 
   return (
     <div className="w-full bg-white">
@@ -91,12 +92,13 @@ export default function JobVacancy() {
                         <div className="flex items-center gap-2">
                           <Calendar className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                           <span>
-                            Apply by{" "}
-                            {new Date(`${job.deadline}T00:00:00`).toLocaleDateString(undefined, {
-                              month: "long",
-                              day: "numeric",
-                              year: "numeric",
-                            })}
+                            {job.deadline
+                              ? `Apply by ${new Date(`${job.deadline}T00:00:00`).toLocaleDateString(undefined, {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                })}`
+                              : "Open until filled"}
                           </span>
                         </div>
                         {job.location && (
